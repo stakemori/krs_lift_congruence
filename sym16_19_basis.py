@@ -38,4 +38,5 @@ sym16_consts = sym16_consts + [CVH(sym16_consts[0], 2),
                                CVH(sym16_consts[1], 2)]
 
 calcular = CalculatorVectValued(sym16_consts, sym16_data_dir)
+# prec is 5.
 # calcular.calc_forms_and_save(5, verbose=True)
