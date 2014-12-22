@@ -6,6 +6,8 @@ from vector_valued_const.const import ConstVectValued
 from vector_valued_const.const import ConstVectValuedHeckeOp as CVH
 from vector_valued_const.const import CalculatorVectValued
 
+from degree2.vector_valued_smfs import VectorValuedSiegelModularForms
+
 sym16_data_dir = os.path.join(os.getenv("HOME"), "Documents/misc/sym16_basis")
 
 def cvv(cs, inc, tp):
@@ -40,3 +42,15 @@ sym16_consts = sym16_consts + [CVH(sym16_consts[0], 2),
 calcular = CalculatorVectValued(sym16_consts, sym16_data_dir)
 # prec is 5.
 # calcular.calc_forms_and_save(5, verbose=True)
+
+
+class VectorValuedSMFsSym16Wt19(VectorValuedSiegelModularForms):
+    def __init__(self, prec):
+        VectorValuedSiegelModularForms.__init__(self, 19, 16, prec)
+
+    def dimension(self):
+        return 23
+
+    def basis(self):
+        d = calcular.forms_dict(self.prec)
+        return [d[c] for c in sym16_consts]
