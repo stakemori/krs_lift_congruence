@@ -1,3 +1,4 @@
+# -*- coding: utf-8; mode: sage -*-
 import os
 
 from vector_valued_const.const import ScalarModFormConst as SMFC
@@ -42,16 +43,15 @@ sym18_consts1 = [cvv([SMFC([4]), SMFC([6]), SMFC([4, 6])], 1),
                  cvv([SMFC([6]), SMFC([4, 4]), SMFC([4])], 3),
                  cvv([SMFC([4]), SMFC([6]), SMFC([4]), SMFC([6])], 1, 'a'),
                  cvv([SMFC([5]), SMFC([6]), SMFC([4]), SMFC([5])], 1, 'a'),
-                 cvv([SMFC([4]), SMFC([5]), SMFC([4]), SMFC([5])], 1, 'a'),
-                 cvv([SMFC([4]), SMFC([6]), SMFC([4]), SMFC([4])], 1, 'a'),
-                 cvv([SMFC([4]), SMFC([5]), SMFC([4]), SMFC([5])], 1, 'b'),
                  cvv([SMFC([4]), SMFC([5]), SMFC([6]), SMFC([5])], 1, 'a'),
                  cvv([SMFC([4]), SMFC([5]), SMFC([6]), SMFC([5])], 1, 'b')]
 
+sym18_consts1.extend([CVH(c, 2) for c in sym18_consts1[:8]])
+
 calculator = CalculatorVectValued(sym18_consts1, sym18_data_dir)
 
-# with number_of_procs(8):
-#     calculator.calc_forms_and_save(5, verbose=True)
+# with number_of_procs(4):
+#     calculator.calc_forms_and_save(6, verbose=True)
 
 # sym18_consts = [cvv([SMFC([4]), SMFC([4]), SMFC([12])], 1),
 #                 cvv([SMFC([4]), SMFC([4]), SMFC([4, 4, 4])], 1),
