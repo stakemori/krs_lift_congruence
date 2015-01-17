@@ -50,6 +50,23 @@ sym18_consts1.extend([CVH(c, 2) for c in sym18_consts1[:8]])
 
 calculator = CalculatorVectValued(sym18_consts1, sym18_data_dir)
 
+calculator1 = CalculatorVectValued(sym18_consts1[10:31], sym18_data_dir)
+
+
+class VectorValuedSMFsSym18Wt21(VectorValuedSiegelModularForms):
+    def __init__(self, prec):
+        VectorValuedSiegelModularForms.__init__(self, 21, 18, prec)
+
+    def dimension(self):
+        return 39
+
+    def basis(self):
+        d = calculator.forms_dict(self.prec)
+        return [d[_c] for _c in sym18_consts1]
+
+
+# p = 5518029068479
+
 # with number_of_procs(4):
 #     calculator.calc_forms_and_save(6, verbose=True)
 
