@@ -1,11 +1,13 @@
 # -*- coding: utf-8; mode: sage -*-
 import os
+from sage.all import flatten
 
 from vector_valued_const.const import ScalarModFormConst as SMFC
 from vector_valued_const.const import ConstVectValued
 from vector_valued_const.const import ConstVectValuedHeckeOp as CVH
 from vector_valued_const.const import CalculatorVectValued
-from degree2.basic_operation import number_of_procs
+
+from degree2.elements import SymWtModFmElt
 
 from degree2.vector_valued_smfs import VectorValuedSiegelModularForms
 
@@ -64,82 +66,29 @@ class VectorValuedSMFsSym18Wt21(VectorValuedSiegelModularForms):
         d = calculator.forms_dict(self.prec)
         return [d[_c] for _c in sym18_consts1]
 
+def mod_p(alpha):
+    p = 5518029068479
+    a = -383331840
+    return sum([b * a**i for i, b in enumerate(alpha.list())])%p
 
-# p = 5518029068479
+
+def check_cong():
+    def fname(f):
+        return os.path.join(sym18_data_dir, f)
+
+    lift = SymWtModFmElt.load_from(fname("lift_prec6.sobj"))
+    non_lift = SymWtModFmElt.load_from(fname("non_lift_prec6.sobj"))
+
+    M = VectorValuedSMFsSym18Wt21(6)
+    g = lift - non_lift
+    v = M._to_vector(g)
+    p = 5518029068479
+    l = flatten([b.list() for b in v])
+    l = [b.denominator() for b in l]
+    assert all(b%p != 0 for b in l)
+    assert all(mod_p(b)%p == 0 for b in v)
+
+# check_cong()                    # noerror!!
 
 # with number_of_procs(4):
 #     calculator.calc_forms_and_save(6, verbose=True)
-
-# sym18_consts = [cvv([SMFC([4]), SMFC([4]), SMFC([12])], 1),
-#                 cvv([SMFC([4]), SMFC([4]), SMFC([4, 4, 4])], 1),
-#                 cvv([SMFC([4]), SMFC([4]), SMFC([6, 6])], 1),
-#                 cvv([SMFC([4]), SMFC([6]), SMFC([4, 6])], 1),
-#                 cvv([SMFC([4]), SMFC([6]), SMFC([10])], 1),
-#                 cvv([SMFC([4]), SMFC([4, 4]), SMFC([4, 4])], 1),
-#                 cvv([SMFC([4]), SMFC([10]), SMFC([6])], 1),
-#                 cvv([SMFC([4]), SMFC([4, 6]), SMFC([6])], 1),
-#                 cvv([SMFC([4]), SMFC([5, 6]), SMFC([5])], 1),
-#                 cvv([SMFC([4]), SMFC([12]), SMFC([4])], 1),
-#                 cvv([SMFC([4]), SMFC([4, 4, 4]), SMFC([4])], 1),
-#                 cvv([SMFC([4]), SMFC([6, 6]), SMFC([4])], 1),
-#                 cvv([SMFC([5]), SMFC([5]), SMFC([10])], 1),
-#                 cvv([SMFC([5]), SMFC([5]), SMFC([4, 6])], 1),
-#                 cvv([SMFC([5]), SMFC([6]), SMFC([4, 5])], 1),
-#                 cvv([SMFC([5]), SMFC([4, 5]), SMFC([6])], 1),
-#                 cvv([SMFC([5]), SMFC([4, 6]), SMFC([5])], 1),
-#                 cvv([SMFC([5]), SMFC([10]), SMFC([5])], 1),
-#                 cvv([SMFC([5]), SMFC([5, 6]), SMFC([4])], 1),
-#                 cvv([SMFC([6]), SMFC([6]), SMFC([4, 4])], 1),
-#                 cvv([SMFC([6]), SMFC([4, 4]), SMFC([6])], 1),
-#                 cvv([SMFC([6]), SMFC([4, 5]), SMFC([5])], 1),
-#                 cvv([SMFC([6]), SMFC([4, 6]), SMFC([4])], 1),
-#                 cvv([SMFC([6]), SMFC([10]), SMFC([4])], 1),
-#                 cvv([SMFC([4, 4]), SMFC([4, 4]), SMFC([4])], 1),
-#                 # inc 3
-#                 cvv([SMFC([4]), SMFC([4]), SMFC([4, 6])], 3),
-#                 cvv([SMFC([4]), SMFC([4]), SMFC([10])], 3),
-#                 cvv([SMFC([4]), SMFC([5]), SMFC([4, 5])], 3),
-#                 cvv([SMFC([4]), SMFC([6]), SMFC([4, 4])], 3),
-#                 cvv([SMFC([4]), SMFC([4, 4]), SMFC([6])], 3),
-#                 cvv([SMFC([4]), SMFC([4, 5]), SMFC([5])], 3),
-#                 cvv([SMFC([4]), SMFC([10]), SMFC([4])], 3),
-#                 cvv([SMFC([4]), SMFC([4, 6]), SMFC([4])], 3),
-#                 cvv([SMFC([5]), SMFC([5]), SMFC([4, 4])], 3),
-#                 cvv([SMFC([5]), SMFC([4, 4]), SMFC([5])], 3),
-#                 cvv([SMFC([5]), SMFC([4, 5]), SMFC([4])], 3),
-#                 cvv([SMFC([6]), SMFC([6]), SMFC([6])], 3),
-#                 cvv([SMFC([6]), SMFC([4, 4]), SMFC([4])], 3),
-#                 # quadruple es4, inc 1
-#                 cvv([SMFC([4]), SMFC([4]), SMFC([4]), SMFC([4, 4])], 1, 'a'),
-#                 cvv([SMFC([4]), SMFC([6]), SMFC([4]), SMFC([6])], 1, 'a'),
-#                 cvv([SMFC([4]), SMFC([4, 4]), SMFC([4]), SMFC([4])], 1, 'a'),
-#                 cvv([SMFC([5]), SMFC([5]), SMFC([4]), SMFC([6])], 1, 'a'),
-#                 cvv([SMFC([5]), SMFC([6]), SMFC([4]), SMFC([5])], 1, 'a'),
-#                 cvv([SMFC([6]), SMFC([6]), SMFC([4]), SMFC([4])], 1, 'a'),
-#                 cvv([SMFC([4]), SMFC([4]), SMFC([4]), SMFC([4, 4])], 1, 'b'),
-#                 cvv([SMFC([4]), SMFC([6]), SMFC([4]), SMFC([6])], 1, 'b'),
-#                 cvv([SMFC([4]), SMFC([4, 4]), SMFC([4]), SMFC([4])], 1, 'b'),
-#                 cvv([SMFC([5]), SMFC([5]), SMFC([4]), SMFC([6])], 1, 'b'),
-#                 cvv([SMFC([5]), SMFC([6]), SMFC([4]), SMFC([5])], 1, 'b'),
-#                 cvv([SMFC([6]), SMFC([6]), SMFC([4]), SMFC([4])], 1, 'b'),
-#                 # quadruple es4, inc 3
-#                 cvv([SMFC([4]), SMFC([5]), SMFC([4]), SMFC([5])], 1, 'a'),
-#                 cvv([SMFC([4]), SMFC([6]), SMFC([4]), SMFC([4])], 1, 'a'),
-#                 cvv([SMFC([4]), SMFC([5]), SMFC([4]), SMFC([5])], 1, 'b'),
-#                 cvv([SMFC([4]), SMFC([6]), SMFC([4]), SMFC([4])], 1, 'b'),
-#                 # quadruple es6, inc 1
-#                 cvv([SMFC([4]), SMFC([5]), SMFC([6]), SMFC([5])], 1, 'a'),
-#                 cvv([SMFC([4]), SMFC([6]), SMFC([6]), SMFC([4])], 1, 'a'),
-#                 cvv([SMFC([4]), SMFC([5]), SMFC([6]), SMFC([5])], 1, 'b'),
-#                 cvv([SMFC([4]), SMFC([6]), SMFC([6]), SMFC([4])], 1, 'b')]
-
-# def const_to_str(c):
-#     consts = c.consts
-#     tp = c._type
-#     inc = c.inc
-#     wts_s = [c.wts for c in consts]
-#     consts_str = ", ".join(["SMFC(%s)"%(wts) for wts in wts_s])
-#     return "cvv([{consts_str}], {inc}{tp})".format(
-#         consts_str=consts_str,
-#         inc=str(inc),
-#         tp=", '%s'"%(tp) if tp is not None else "")

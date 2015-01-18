@@ -54,3 +54,8 @@ class VectorValuedSMFsSym16Wt19(VectorValuedSiegelModularForms):
     def basis(self):
         d = calcular.forms_dict(self.prec)
         return [d[c] for c in sym16_consts]
+
+def mod_37903031(alpha):
+    p = 37903031
+    a = -8785920
+    return sum([b * a**i for i, b in enumerate(alpha.list())])%p
