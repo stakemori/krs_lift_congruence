@@ -83,6 +83,7 @@ def check_cong():
     K = non_lift.base_ring
     v = M._to_vector(g)
     for p in [103, 5518029068479]:
+        print "checking for p = %s ... "%(p)
         R = PolynomialRing(FiniteField(p), names="x")
         pl_modp = R(K.polynomial())
         # p is unramified.
