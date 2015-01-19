@@ -39,9 +39,9 @@ sym16_consts = [cvv([SMFC([4]), SMFC([4]), SMFC([10])], 1, None),
 sym16_consts = sym16_consts + [CVH(sym16_consts[0], 2),
                                CVH(sym16_consts[1], 2)]
 
-calcular = CalculatorVectValued(sym16_consts, sym16_data_dir)
+calculator = CalculatorVectValued(sym16_consts, sym16_data_dir)
 # prec is 5.
-# calcular.calc_forms_and_save(5, verbose=True)
+# calculator.calc_forms_and_save(5, verbose=True)
 
 
 class VectorValuedSMFsSym16Wt19(VectorValuedSiegelModularForms):
@@ -52,7 +52,7 @@ class VectorValuedSMFsSym16Wt19(VectorValuedSiegelModularForms):
         return 23
 
     def basis(self):
-        d = calcular.forms_dict(self.prec)
+        d = calculator.forms_dict(self.prec)
         return [d[c] for c in sym16_consts]
 
 def mod_37903031(alpha):
