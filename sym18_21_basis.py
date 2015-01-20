@@ -11,7 +11,7 @@ from degree2.elements import SymWtModFmElt
 
 from degree2.vector_valued_smfs import VectorValuedSiegelModularForms
 
-import kim_shahidi_lift_cong
+import kim_shahidi_lift_cong.utils
 
 sym18_data_dir = os.path.join(os.getenv("HOME"), "Documents/misc/sym18_basis")
 
@@ -70,7 +70,7 @@ class VectorValuedSMFsSym18Wt21(VectorValuedSiegelModularForms):
 
 def mod_p(alpha, p):
     a = -383331840
-    return kim_shahidi_lift_cong.mod_p(alpha, p, a)
+    return sum([b * a**i for i, b in enumerate(alpha.list())])%p
 
 
 def check_cong():
