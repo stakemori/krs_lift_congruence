@@ -87,7 +87,7 @@ class VectorValuedSMFsSym14Wt17(VectorValuedSiegelModularForms):
 
 def mod_p(alpha, p):
     a = -4078080
-    return sum([b * a**i for i, b in enumerate(alpha.list())])%p
+    return kim_shahidi_lift_cong.utils.modulo_p(alpha, a, p)
 
 def check_cong():
     p = 92467
