@@ -2,7 +2,7 @@
 
 import os
 from sage.all import (cached_method, PolynomialRing, QQ, FiniteField, flatten,
-                      mul)
+                      mul, NumberField, matrix)
 
 from vector_valued_const.const import ScalarModFormConst as SMFC
 from vector_valued_const.const import ConstVectValued
@@ -71,6 +71,26 @@ class VectorValuedSMFsSym14Wt17NonHol(VectorValuedSiegelModularForms):
             res = pmap(lambda c: d[c] * f, sym14_21_consts)
         return res
 
+    def strum_bd_list(self):
+        return 3
+
+sym14_wt17_non_hol = VectorValuedSMFsSym14Wt17NonHol(6)
+
+def lift_sym14_wt17_prec6():
+    res = sym14_wt17_non_hol.eigenform_with_eigenvalue_t2(QQ(-4078080))
+    res.save_as_binary(fname("lift_prec6.sobj"))
+    return res
+
+def non_lift_sym14_wt17_prec6():
+    pl = [a for a, _ in sym14_wt17_non_hol.hecke_charpoly(2).factor()
+          if a.degree() == 12][0]
+    K = NumberField(pl, names="a")
+    a = K.gen()
+    res = sym14_wt17_non_hol.eigenform_with_eigenvalue_t2(a)
+    res.save_as_binary(fname("non_lift_prec6.sobj"))
+    return res
+
+
 class VectorValuedSMFsSym14Wt17(VectorValuedSiegelModularForms):
     def __init__(self, prec):
         VectorValuedSiegelModularForms.__init__(self, 17, 14, prec)
@@ -89,18 +109,16 @@ def mod_p(alpha, p):
     a = -4078080
     return kim_shahidi_lift_cong.utils.modulo_p(alpha, a, p)
 
+def fname(f):
+    return os.path.join(sym14_data_dir, f)
+
 def check_cong():
     p = 92467
-    def fname(f):
-        return os.path.join(sym14_data_dir, f)
-
     lift = SymWtModFmElt.load_from(fname("lift_prec6.sobj"))
     non_lift = SymWtModFmElt.load_from(fname("non_lift_prec6.sobj"))
-
-    M = VectorValuedSMFsSym14Wt17(6)
     g = lift - non_lift
     K = non_lift.base_ring
-    v = M._to_vector(g)
+    v = sym14_wt17_non_hol._to_vector(g)
     R = PolynomialRing(FiniteField(p), names="x")
     pl_modp = R(K.polynomial())
     # p is unramified.
