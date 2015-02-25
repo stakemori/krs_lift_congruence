@@ -2,7 +2,7 @@
 
 import os
 from sage.all import (cached_method, PolynomialRing, QQ, FiniteField, flatten,
-                      mul, NumberField, matrix)
+                      mul, NumberField)
 
 from degree2.const import ScalarModFormConst as SMFC
 from degree2.const import ConstVectValued
