@@ -4,10 +4,10 @@ import os
 from sage.all import (cached_method, PolynomialRing, QQ, FiniteField, flatten,
                       mul, NumberField, matrix)
 
-from vector_valued_const.const import ScalarModFormConst as SMFC
-from vector_valued_const.const import ConstVectValued
-from vector_valued_const.const import ConstVectValuedHeckeOp as CVH
-from vector_valued_const.const import CalculatorVectValued
+from degree2.const import ScalarModFormConst as SMFC
+from degree2.const import ConstVectValued
+from degree2.const import ConstVectValuedHeckeOp as CVH
+from degree2.const import CalculatorVectValued
 
 from degree2.basic_operation import number_of_procs
 from degree2.vector_valued_smfs import VectorValuedSiegelModularForms

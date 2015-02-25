@@ -2,10 +2,10 @@
 import os
 from sage.all import flatten, PolynomialRing, FiniteField
 
-from vector_valued_const.const import ScalarModFormConst as SMFC
-from vector_valued_const.const import ConstVectValued
-from vector_valued_const.const import ConstVectValuedHeckeOp as CVH
-from vector_valued_const.const import CalculatorVectValued
+from degree2.const import ScalarModFormConst as SMFC
+from degree2.const import ConstVectValued
+from degree2.const import ConstVectValuedHeckeOp as CVH
+from degree2.const import CalculatorVectValued
 
 from degree2.elements import SymWtModFmElt
 
