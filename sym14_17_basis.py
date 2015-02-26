@@ -1,8 +1,7 @@
 # -*- coding: utf-8; mode: sage -*-
 
 import os
-from sage.all import (cached_method, PolynomialRing, QQ, FiniteField, flatten,
-                      mul, NumberField)
+from sage.all import (cached_method, QQ, mul, NumberField)
 
 from degree2.const import ScalarModFormConst as SMFC
 from degree2.const import ConstVectValued
@@ -116,21 +115,11 @@ def check_cong():
     p = 92467
     lift = SymWtModFmElt.load_from(fname("lift_prec6.sobj"))
     non_lift = SymWtModFmElt.load_from(fname("non_lift_prec6.sobj"))
-    v_lift = sym14_wt17_non_hol._to_vector(lift)
-    v_non_lift = sym14_wt17_non_hol._to_vector(non_lift)
-    # check p-integral
-    assert all((kim_shahidi_lift_cong.utils.is_p_integral(a, p)
-                for a in v_lift))
-    assert all((kim_shahidi_lift_cong.utils.is_p_integral(a, p)
-                for a in v_non_lift))
-    K = non_lift.base_ring
-    R = PolynomialRing(FiniteField(p), names="x")
-    pl_modp = R(K.polynomial())
-    # p is unramified.
-    assert all((b == 1 for a, b in pl_modp().factor()))
-    # check congruence
-    v = v_lift - v_non_lift
-    assert all(mod_p(b, p)%p == 0 for b in v)
+    t2_eigenvalue = -4078080
+    M = sym14_wt17_non_hol
+    kim_shahidi_lift_cong.utils.check_cong(p, t2_eigenvalue,
+                                           lift, non_lift, M)
+
 
 
 # class VectorValuedSMFsSym14Wt17Lift(VectorValuedSiegelModularForms):

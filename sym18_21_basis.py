@@ -1,6 +1,5 @@
 # -*- coding: utf-8; mode: sage -*-
 import os
-from sage.all import flatten, PolynomialRing, FiniteField
 
 from degree2.const import ScalarModFormConst as SMFC
 from degree2.const import ConstVectValued
@@ -68,9 +67,6 @@ class VectorValuedSMFsSym18Wt21(VectorValuedSiegelModularForms):
         d = calculator.forms_dict(self.prec)
         return [d[_c] for _c in sym18_consts1]
 
-def mod_p(alpha, p):
-    a = -383331840
-    return kim_shahidi_lift_cong.utils.modulo_p(alpha, a, p)
 
 def check_cong():
     def fname(f):
@@ -78,21 +74,13 @@ def check_cong():
 
     lift = SymWtModFmElt.load_from(fname("lift_prec6.sobj"))
     non_lift = SymWtModFmElt.load_from(fname("non_lift_prec6.sobj"))
-
+    t2_eigenvalue = -383331840
     M = VectorValuedSMFsSym18Wt21(6)
-    g = lift - non_lift
-    K = non_lift.base_ring
-    v = M._to_vector(g)
     for p in [103, 5518029068479]:
-        print "checking for p = %s ... "%(p)
-        R = PolynomialRing(FiniteField(p), names="x")
-        pl_modp = R(K.polynomial())
-        # p is unramified.
-        assert all((b == 1 for a, b in pl_modp().factor()))
-        l = flatten([b.list() for b in v])
-        l = [b.denominator() for b in l]
-        assert all(b%p != 0 for b in l)
-        assert all(mod_p(b, p)%p == 0 for b in v)
+        print "checking when p = %s ... "%(p)
+        kim_shahidi_lift_cong.utils.check_cong(p, t2_eigenvalue,
+                                               lift, non_lift, M)
+
 
 # check_cong()                    # noerror!!
 

@@ -5,8 +5,9 @@ from degree2.const import ScalarModFormConst as SMFC
 from degree2.const import ConstVectValued
 from degree2.const import ConstVectValuedHeckeOp as CVH
 from degree2.const import CalculatorVectValued
-
+from degree2.elements import SymWtModFmElt
 from degree2.vector_valued_smfs import VectorValuedSiegelModularForms
+import kim_shahidi_lift_cong.utils
 
 sym16_data_dir = os.path.join(os.getenv("HOME"), "Documents/misc/sym16_basis")
 
@@ -40,8 +41,12 @@ sym16_consts = sym16_consts + [CVH(sym16_consts[0], 2),
                                CVH(sym16_consts[1], 2)]
 
 calculator = CalculatorVectValued(sym16_consts, sym16_data_dir)
-# prec is 5.
-# calculator.calc_forms_and_save(5, verbose=True)
+# prec is 6.
+# calculator.calc_forms_and_save(6, verbose=True)
+
+
+def fname(f):
+    return os.path.join(sym16_data_dir, f)
 
 
 class VectorValuedSMFsSym16Wt19(VectorValuedSiegelModularForms):
@@ -55,7 +60,12 @@ class VectorValuedSMFsSym16Wt19(VectorValuedSiegelModularForms):
         d = calculator.forms_dict(self.prec)
         return [d[c] for c in sym16_consts]
 
-def mod_37903031(alpha):
+
+def check_cong():
     p = 37903031
-    a = -8785920
-    return sum([b * a**i for i, b in enumerate(alpha.list())])%p
+    lift = SymWtModFmElt.load_from(fname("lift19_prec6.sobj"))
+    non_lift = SymWtModFmElt.load_from(fname("nonlift19_prec6.sobj"))
+    t2_eigenvalue = -8785920
+    M = VectorValuedSMFsSym16Wt19(6)
+    kim_shahidi_lift_cong.utils.check_cong(p, t2_eigenvalue,
+                                           lift, non_lift, M)
