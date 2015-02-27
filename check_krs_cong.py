@@ -24,7 +24,7 @@ def compute_lift_and_non_lift():
     for m in modules:
         m.compute_lift_and_non_lift()
 
-def check_cong():
+def check_congruence():
     """
     check congruence of Fourier coefficients of the lift
     and the non-lift for k = 16, 18 and 20.
