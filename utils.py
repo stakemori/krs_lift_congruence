@@ -1,6 +1,7 @@
 # -*- coding: utf-8; mode: sage -*-
 from sage.all import QQ, PolynomialRing, FiniteField
 from sage.rings.number_field.number_field import NumberField_absolute
+import os
 
 def modulo_p(alpha, a, p):
     return sum([b * a**i for i, b in enumerate(alpha.list())])%p
@@ -30,3 +31,5 @@ def check_cong(p, t2_eigenvalue, lift, non_lift, space):
     # check congruence
     v = v_lift - v_non_lift
     assert all(mod_p(b)%p == 0 for b in v)
+
+data_dir = os.path.join(os.getenv("HOME"), "ksr_lift_data_dir")
