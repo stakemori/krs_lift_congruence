@@ -36,7 +36,8 @@ Sym(18) and lifts and non-lifts with precision 6,
 evaluate the following code.
 
 #+begin_src python
-  from krs_lift_congruence.check_krs_cong import compute_lift_and_non_lift, check_congruence
+  from krs_lift_congruence.check_krs_cong import (
+      compute_lift_and_non_lift, check_congruence)
   compute_lift_and_non_lift()
 #+end_src
 
