@@ -4,7 +4,7 @@ from degree2.const import ConstVectValued
 from degree2.const import ConstVectValuedHeckeOp as CVH
 from degree2.const import CalculatorVectValued
 from degree2.vector_valued_smfs import VectorValuedSiegelModularForms
-import kim_shahidi_lift_cong.utils
+import krs_lift_congruence.utils
 
 def cvv(cs, inc, tp):
     return ConstVectValued(16, cs, inc, tp)
@@ -36,13 +36,13 @@ sym16_consts = sym16_consts + [CVH(sym16_consts[0], 2),
                                CVH(sym16_consts[1], 2)]
 
 calculator = CalculatorVectValued(sym16_consts,
-                                  kim_shahidi_lift_cong.utils.data_dir)
+                                  krs_lift_congruence.utils.data_dir)
 # prec is 6.
 # calculator.calc_forms_and_save(6, verbose=True)
 
 def compute_lift_and_non_lift():
     M = VectorValuedSMFsSym16Wt19(6)
-    kim_shahidi_lift_cong.utils.compute_lift_and_non_lift(M, 6)
+    krs_lift_congruence.utils.compute_lift_and_non_lift(M, 6)
 
 
 class VectorValuedSMFsSym16Wt19(VectorValuedSiegelModularForms):
@@ -61,4 +61,4 @@ def check_cong():
     p = 37903031
     t2_eigenvalue = -8785920
     M = VectorValuedSMFsSym16Wt19(6)
-    kim_shahidi_lift_cong.utils.check_cong(p, t2_eigenvalue, M)
+    krs_lift_congruence.utils.check_cong(p, t2_eigenvalue, M)

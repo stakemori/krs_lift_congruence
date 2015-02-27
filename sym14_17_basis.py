@@ -14,7 +14,7 @@ from degree2.scalar_valued_smfs import eisenstein_series_degree2
 from degree2.utils import pmap
 
 
-import kim_shahidi_lift_cong.utils
+import krs_lift_congruence.utils
 
 def cvv(cs, inc, tp=None):
     return ConstVectValued(14, cs, inc, tp)
@@ -49,7 +49,7 @@ def _sym14_21_consts1():
 sym14_21_consts.extend(_sym14_21_consts1())
 
 calculator = CalculatorVectValued(sym14_21_consts,
-                                  kim_shahidi_lift_cong.utils.data_dir)
+                                  krs_lift_congruence.utils.data_dir)
 # calculator.calc_forms_and_save(6, verbose=True)
 
 class VectorValuedSMFsSym14Wt17NonHol(VectorValuedSiegelModularForms):
@@ -90,22 +90,22 @@ class VectorValuedSMFsSym14Wt17(VectorValuedSiegelModularForms):
         return M.basis_of_subsp_annihilated_by(pl, parallel=True)
 
 def compute_lift_and_non_lift():
-    kim_shahidi_lift_cong.utils.compute_lift_and_non_lift(
+    krs_lift_congruence.utils.compute_lift_and_non_lift(
         sym14_wt17_non_hol, 6)
 
 
 def mod_p(alpha, p):
     a = -4078080
-    return kim_shahidi_lift_cong.utils.modulo_p(alpha, a, p)
+    return krs_lift_congruence.utils.modulo_p(alpha, a, p)
 
 def fname(f):
-    return os.path.join(kim_shahidi_lift_cong.utils.data_dir, f)
+    return os.path.join(krs_lift_congruence.utils.data_dir, f)
 
 def check_cong():
     p = 92467
     t2_eigenvalue = -4078080
     M = sym14_wt17_non_hol
-    kim_shahidi_lift_cong.utils.check_cong(p, t2_eigenvalue, M)
+    krs_lift_congruence.utils.check_cong(p, t2_eigenvalue, M)
 
 
 

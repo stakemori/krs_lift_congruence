@@ -1,11 +1,11 @@
 # -*- coding: utf-8; mode: sage -*-
-import kim_shahidi_lift_cong.sym14_17_basis
-import kim_shahidi_lift_cong.sym16_19_basis
-import kim_shahidi_lift_cong.sym18_21_basis
+import krs_lift_congruence.sym14_17_basis
+import krs_lift_congruence.sym16_19_basis
+import krs_lift_congruence.sym18_21_basis
 
-modules = [kim_shahidi_lift_cong.sym14_17_basis,
-           kim_shahidi_lift_cong.sym16_19_basis,
-           kim_shahidi_lift_cong.sym18_21_basis]
+modules = [krs_lift_congruence.sym14_17_basis,
+           krs_lift_congruence.sym16_19_basis,
+           krs_lift_congruence.sym18_21_basis]
 
 def compute_basis():
     '''

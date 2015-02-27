@@ -6,7 +6,7 @@ from degree2.const import CalculatorVectValued
 
 from degree2.vector_valued_smfs import VectorValuedSiegelModularForms
 
-import kim_shahidi_lift_cong.utils
+import krs_lift_congruence.utils
 
 def cvv(cs, inc, tp=None):
     return ConstVectValued(18, cs, inc, tp)
@@ -46,10 +46,10 @@ sym18_consts1 = [cvv([SMFC([4]), SMFC([6]), SMFC([4, 6])], 1),
 sym18_consts1.extend([CVH(c, 2) for c in sym18_consts1[:8]])
 
 calculator = CalculatorVectValued(sym18_consts1,
-                                  kim_shahidi_lift_cong.utils.data_dir)
+                                  krs_lift_congruence.utils.data_dir)
 
 # calculator1 = CalculatorVectValued(sym18_consts1[10:31],
-#                                    kim_shahidi_lift_cong.utils.data_dir)
+#                                    krs_lift_congruence.utils.data_dir)
 
 
 class VectorValuedSMFsSym18Wt21(VectorValuedSiegelModularForms):
@@ -65,14 +65,14 @@ class VectorValuedSMFsSym18Wt21(VectorValuedSiegelModularForms):
 
 def compute_lift_and_non_lift():
     M = VectorValuedSMFsSym18Wt21(6)
-    kim_shahidi_lift_cong.utils.compute_lift_and_non_lift(M, 6)
+    krs_lift_congruence.utils.compute_lift_and_non_lift(M, 6)
 
 def check_cong():
     t2_eigenvalue = -383331840
     M = VectorValuedSMFsSym18Wt21(6)
     for p in [103, 5518029068479]:
         print "checking when p = %s ... "%(p)
-        kim_shahidi_lift_cong.utils.check_cong(p, t2_eigenvalue, M)
+        krs_lift_congruence.utils.check_cong(p, t2_eigenvalue, M)
 
 
 # check_cong()                    # noerror!!
