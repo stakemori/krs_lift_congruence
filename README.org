@@ -26,10 +26,9 @@
    And in SageMath, evaluate the following code.
 
 #+begin_src python
-  import krs_lift_congruence.utils
-  import os
-  data_dir = os.path.expanduser("~/ksr_lift_data_dir")
-  krs_lift_congruence.utils.data_dir = data_dir
+  sage: import krs_lift_congruence.utils
+  sage: import os
+  sage: krs_lift_congruence.utils.data_dir = os.path.expanduser("~/ksr_lift_data_dir")
 #+end_src
 
    To compute basis of weights det^17 Sym(14), det^19 Sym(16) and
@@ -37,9 +36,8 @@
    following code.
 
 #+begin_src python
-  from krs_lift_congruence.check_krs_cong import (
-      compute_lift_and_non_lift, check_congruence)
-  compute_lift_and_non_lift()
+  sage: from krs_lift_congruence.check_krs_cong import compute_lift_and_non_lift
+  sage: compute_lift_and_non_lift()
 #+end_src
 
    Then basis, lifts and non-lifts will be saved in the data directory.
@@ -47,16 +45,32 @@
    non-lift of the same weight, try the following code.
 
 #+begin_src python
-  from degree2.elements import SymWtModFmElt
-  lift = SymWtModFmElt.load_from(os.path.join(data_dir, "lift_17_14_prec6.sobj"))
-  nonlift = SymWtModFmElt.load_from(os.path.join(data_dir, "nonlift_17_14_prec6.sobj"))
+  sage: from degree2.elements import SymWtModFmElt
+  sage: lift = SymWtModFmElt.load_from("~/ksr_lift_data_dir/lift_17_14_prec6.sobj")
+  sage: nonlift = SymWtModFmElt.load_from("~/ksr_lift_data_dir/nonlift_17_14_prec6.sobj")
 #+end_src
 
    To check congruences, evaluate the following code.
 
 #+begin_src python
-  check_congruence()
+  sage: from krs_lift_congruence.check_krs_cong import check_congruence
+  sage: check_congruence()
 #+end_src
+
+   To compute the critical value of symmetric 6th of elliptic modular form,
+   try the following code (here we compute =L(Sym^6, 46, f16)= where =f16= is
+   the primitive form of level 1 and weight 16).
+
+#+begin_src python
+  sage: from krs_lift_congruence.symmetric_l_calculator import Symm6Calculator
+  sage: from sage.all import CuspForms
+  sage: f16 = CuspForms(1, 16).newforms()[0] # The primitive form of weight 16.
+  sage: lcalc = Symm6Calculator(f, digits=150)
+  sage: alg_part = lcalc.algebraic_part_numeric(46) # The conjectural algebraic part.
+  sage: alg_part
+
+#+end_src
+
 
 ** License
    Licensed under [[http://www.gnu.org/licenses/gpl.html][GPL]].
