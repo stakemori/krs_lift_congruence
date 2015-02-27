@@ -48,8 +48,8 @@ sym18_consts1.extend([CVH(c, 2) for c in sym18_consts1[:8]])
 calculator = CalculatorVectValued(sym18_consts1,
                                   kim_shahidi_lift_cong.utils.data_dir)
 
-calculator1 = CalculatorVectValued(sym18_consts1[10:31],
-                                   kim_shahidi_lift_cong.utils.data_dir)
+# calculator1 = CalculatorVectValued(sym18_consts1[10:31],
+#                                    kim_shahidi_lift_cong.utils.data_dir)
 
 
 class VectorValuedSMFsSym18Wt21(VectorValuedSiegelModularForms):
