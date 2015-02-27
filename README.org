@@ -1,0 +1,57 @@
+* krs_lift_congruence
+
+  This package checks congruence between Kim-Ramakrishnan-Shahidi lifts
+  and non-lifts.
+  We check congruences for lifts of elliptic modular forms of level one
+  and of weight 16, 18, 20.
+
+** Dependencies
+   - [[http://www.sagemath.org/][SageMath]]
+   - [[https://github.com/stakemori/degree2][degree2]]
+
+** Installation
+   1. Install [[http://www.sagemath.org/][SageMath]].
+   2. [[https://github.com/stakemori/degree2][degree2]] and this package are packages written in pure Python.
+      Place them to an appropriate directory so that SageMath can find
+      these packages.
+
+** Usage
+First prepare a directory for saving data.
+For example, we create "~/ksr_lift_data_dir" for the data directory.
+
+#+begin_src sh
+  $ mkdir ~/ksr_lift_data_dir
+#+end_src
+
+And in SageMath, evaluate the following code.
+
+#+begin_src python
+  import krs_lift_congruence.utils; import os
+  data_dir = os.path.expanduser("~/ksr_lift_data_dir")
+  krs_lift_congruence.utils.data_dir = data_dir
+#+end_src
+
+To compute basis of weights det^17 Sym(14), det^19 Sym(16), det^21
+Sym(18) and lifts and non-lifts with precision 6,
+evaluate the following code.
+
+#+begin_src python
+  from krs_lift_congruence.check_krs_cong import compute_lift_and_non_lift, check_congruence
+  compute_lift_and_non_lift()
+#+end_src
+
+Then basis, lifts and non-lifts will be saved in the data directory.
+For example to load the lift of weight det^17 Sym(14) and
+non-lift of the same weight, try the following code.
+
+#+begin_src python
+  from degree2.elements import SymWtModFmElt
+  lift = SymWtModFmElt.load_from(os.path.join(data_dir, "lift_17_14_prec6.sobj"))
+  nonlift = SymWtModFmElt.load_from(os.path.join(data_dir, "nonlift_17_14_prec6.sobj"))
+#+end_src
+
+To check congruences, evaluate the following code.
+
+#+begin_src python
+  check_congruence()
+#+end_src
