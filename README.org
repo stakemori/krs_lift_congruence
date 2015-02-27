@@ -26,7 +26,8 @@
    And in SageMath, evaluate the following code.
 
 #+begin_src python
-  import krs_lift_congruence.utils; import os
+  import krs_lift_congruence.utils
+  import os
   data_dir = os.path.expanduser("~/ksr_lift_data_dir")
   krs_lift_congruence.utils.data_dir = data_dir
 #+end_src
