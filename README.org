@@ -56,3 +56,7 @@ To check congruences, evaluate the following code.
 #+begin_src python
   check_congruence()
 #+end_src
+
+** License
+   [[http://www.gnu.org/licenses/gpl.html][GPL]]
+
