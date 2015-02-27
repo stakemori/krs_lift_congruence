@@ -8,8 +8,7 @@ from degree2.const import CalculatorVectValued
 from degree2.elements import SymWtModFmElt
 from degree2.vector_valued_smfs import VectorValuedSiegelModularForms
 import kim_shahidi_lift_cong.utils
-
-sym16_data_dir = os.path.join(os.getenv("HOME"), "Documents/misc/sym16_basis")
+import kim_shahidi_lift_cong.check_krs_cong
 
 def cvv(cs, inc, tp):
     return ConstVectValued(16, cs, inc, tp)
@@ -40,13 +39,14 @@ sym16_consts = [cvv([SMFC([4]), SMFC([4]), SMFC([10])], 1, None),
 sym16_consts = sym16_consts + [CVH(sym16_consts[0], 2),
                                CVH(sym16_consts[1], 2)]
 
-calculator = CalculatorVectValued(sym16_consts, sym16_data_dir)
+calculator = CalculatorVectValued(sym16_consts,
+                                  kim_shahidi_lift_cong.check_krs_cong.data_dir)
 # prec is 6.
 # calculator.calc_forms_and_save(6, verbose=True)
 
 
 def fname(f):
-    return os.path.join(sym16_data_dir, f)
+    return os.path.join(kim_shahidi_lift_cong.check_krs_cong.data_dir, f)
 
 
 class VectorValuedSMFsSym16Wt19(VectorValuedSiegelModularForms):

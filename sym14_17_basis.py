@@ -16,8 +16,7 @@ from degree2.utils import pmap
 from degree2.elements import SymWtModFmElt
 
 import kim_shahidi_lift_cong.utils
-
-sym14_data_dir = os.path.join(os.getenv("HOME"), "Documents/misc/sym14_basis")
+import kim_shahidi_lift_cong.check_krs_cong
 
 def cvv(cs, inc, tp=None):
     return ConstVectValued(14, cs, inc, tp)
@@ -51,7 +50,8 @@ def _sym14_21_consts1():
 
 sym14_21_consts.extend(_sym14_21_consts1())
 
-calculator = CalculatorVectValued(sym14_21_consts, sym14_data_dir)
+calculator = CalculatorVectValued(sym14_21_consts,
+                                  kim_shahidi_lift_cong.check_krs_cong.data_dir)
 # calculator.calc_forms_and_save(6, verbose=True)
 
 class VectorValuedSMFsSym14Wt17NonHol(VectorValuedSiegelModularForms):
@@ -109,7 +109,7 @@ def mod_p(alpha, p):
     return kim_shahidi_lift_cong.utils.modulo_p(alpha, a, p)
 
 def fname(f):
-    return os.path.join(sym14_data_dir, f)
+    return os.path.join(kim_shahidi_lift_cong.check_krs_cong.data_dir, f)
 
 def check_cong():
     p = 92467

@@ -11,8 +11,7 @@ from degree2.elements import SymWtModFmElt
 from degree2.vector_valued_smfs import VectorValuedSiegelModularForms
 
 import kim_shahidi_lift_cong.utils
-
-sym18_data_dir = os.path.join(os.getenv("HOME"), "Documents/misc/sym18_basis")
+import kim_shahidi_lift_cong.check_krs_cong
 
 def cvv(cs, inc, tp=None):
     return ConstVectValued(18, cs, inc, tp)
@@ -51,9 +50,11 @@ sym18_consts1 = [cvv([SMFC([4]), SMFC([6]), SMFC([4, 6])], 1),
 
 sym18_consts1.extend([CVH(c, 2) for c in sym18_consts1[:8]])
 
-calculator = CalculatorVectValued(sym18_consts1, sym18_data_dir)
+calculator = CalculatorVectValued(sym18_consts1,
+                                  kim_shahidi_lift_cong.check_krs_cong.data_dir)
 
-calculator1 = CalculatorVectValued(sym18_consts1[10:31], sym18_data_dir)
+calculator1 = CalculatorVectValued(sym18_consts1[10:31],
+                                   kim_shahidi_lift_cong.check_krs_cong.data_dir)
 
 
 class VectorValuedSMFsSym18Wt21(VectorValuedSiegelModularForms):
@@ -70,7 +71,7 @@ class VectorValuedSMFsSym18Wt21(VectorValuedSiegelModularForms):
 
 def check_cong():
     def fname(f):
-        return os.path.join(sym18_data_dir, f)
+        return os.path.join(kim_shahidi_lift_cong.check_krs_cong.data_dir, f)
 
     lift = SymWtModFmElt.load_from(fname("lift_prec6.sobj"))
     non_lift = SymWtModFmElt.load_from(fname("non_lift_prec6.sobj"))
