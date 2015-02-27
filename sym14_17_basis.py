@@ -89,6 +89,11 @@ class VectorValuedSMFsSym14Wt17(VectorValuedSiegelModularForms):
                   if f.degree() in [1, 12]])
         return M.basis_of_subsp_annihilated_by(pl, parallel=True)
 
+def compute_lift_and_non_lift():
+    kim_shahidi_lift_cong.utils.compute_lift_and_non_lift(
+        sym14_wt17_non_hol, 6)
+
+
 def mod_p(alpha, p):
     a = -4078080
     return kim_shahidi_lift_cong.utils.modulo_p(alpha, a, p)

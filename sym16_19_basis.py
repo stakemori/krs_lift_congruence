@@ -40,6 +40,10 @@ calculator = CalculatorVectValued(sym16_consts,
 # prec is 6.
 # calculator.calc_forms_and_save(6, verbose=True)
 
+def compute_lift_and_non_lift():
+    M = VectorValuedSMFsSym16Wt19(6)
+    kim_shahidi_lift_cong.utils.compute_lift_and_non_lift(M, 6)
+
 
 class VectorValuedSMFsSym16Wt19(VectorValuedSiegelModularForms):
     def __init__(self, prec):
