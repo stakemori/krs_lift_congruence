@@ -16,14 +16,14 @@
       these packages.
 
 ** Usage
-First prepare a directory for saving data.
-For example, we create "~/ksr_lift_data_dir" for the data directory.
+   First prepare a directory for saving data.
+   For example, we create "~/ksr_lift_data_dir" for the data directory.
 
 #+begin_src sh
   $ mkdir ~/ksr_lift_data_dir
 #+end_src
 
-And in SageMath, evaluate the following code.
+   And in SageMath, evaluate the following code.
 
 #+begin_src python
   import krs_lift_congruence.utils; import os
@@ -31,9 +31,9 @@ And in SageMath, evaluate the following code.
   krs_lift_congruence.utils.data_dir = data_dir
 #+end_src
 
-To compute basis of weights det^17 Sym(14), det^19 Sym(16), det^21
-Sym(18) and lifts and non-lifts with precision 6,
-evaluate the following code.
+   To compute basis of weights det^17 Sym(14), det^19 Sym(16), det^21
+   Sym(18) and lifts and non-lifts with precision 6,
+   evaluate the following code.
 
 #+begin_src python
   from krs_lift_congruence.check_krs_cong import (
@@ -41,9 +41,9 @@ evaluate the following code.
   compute_lift_and_non_lift()
 #+end_src
 
-Then basis, lifts and non-lifts will be saved in the data directory.
-For example to load the lift of weight det^17 Sym(14) and
-non-lift of the same weight, try the following code.
+   Then basis, lifts and non-lifts will be saved in the data directory.
+   For example to load the lift of weight det^17 Sym(14) and
+   non-lift of the same weight, try the following code.
 
 #+begin_src python
   from degree2.elements import SymWtModFmElt
@@ -51,12 +51,11 @@ non-lift of the same weight, try the following code.
   nonlift = SymWtModFmElt.load_from(os.path.join(data_dir, "nonlift_17_14_prec6.sobj"))
 #+end_src
 
-To check congruences, evaluate the following code.
+   To check congruences, evaluate the following code.
 
 #+begin_src python
   check_congruence()
 #+end_src
 
 ** License
-   [[http://www.gnu.org/licenses/gpl.html][GPL]]
-
+   Licensed under [[http://www.gnu.org/licenses/gpl.html][GPL]].
