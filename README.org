@@ -64,11 +64,26 @@
 #+begin_src python
   sage: from krs_lift_congruence.symmetric_l_calculator import Symm6Calculator
   sage: from sage.all import CuspForms
-  sage: f16 = CuspForms(1, 16).newforms()[0] # The primitive form of weight 16.
-  sage: lcalc = Symm6Calculator(f, digits=150)
+  sage: f16 = CuspForms(1, 16).basis()[0] # The primitive form of weight 16.
+  sage: lcalc = Symm6Calculator(f16, digits=150)
   sage: alg_part = lcalc.algebraic_part_numeric(46) # The conjectural algebraic part.
   sage: alg_part
-
+  1.87966186352303659892877519163336698098888790010700567447336739672714532309789854529673272542132901080918376259689834113363757245781300129905679338263e-41
+  sage: alg_part_normalized = alg_part * 2^(-6*16) * gamma(46) * gamma(46-16) * gamma(46-32)
+  sage: cfls = continued_fraction_list(alg_part_normalized, bits=502); cfls
+  [1562540000945356473049039526,
+   1,
+   1,
+   1,
+   2,
+   6,
+   1,
+   1,
+   1,
+   199192463969969370870280561,
+   ...]
+  sage: continued_fraction(cfls[:9]).value().factor()
+  2^26 * 3^14 * 5^4 * 7^6 * 11^2 * 13^-2 * 92467
 #+end_src
 
 
