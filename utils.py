@@ -2,6 +2,7 @@
 from sage.all import QQ, PolynomialRing, FiniteField, NumberField
 from sage.rings.number_field.number_field import NumberField_absolute
 import os
+from degree2.elements import SymWtModFmElt
 
 def modulo_p(alpha, a, p):
     return sum([b * a**i for i, b in enumerate(alpha.list())])%p
@@ -13,7 +14,11 @@ def is_p_integral(alpha, p):
     elif isinstance(K, NumberField_absolute):
         return all((a.denominator() % p != 0 for a in alpha.list()))
 
-def check_cong(p, t2_eigenvalue, lift, non_lift, space):
+def check_cong(p, t2_eigenvalue, space):
+
+    k = space.wt - 1
+    lift = SymWtModFmElt.load_from(_lift_name(k))
+    non_lift = SymWtModFmElt.load_from(_nonlift_name(k))
 
     def mod_p(alpha):
         return modulo_p(alpha, t2_eigenvalue, p)

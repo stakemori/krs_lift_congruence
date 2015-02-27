@@ -13,7 +13,6 @@ from degree2.vector_valued_smfs import VectorValuedSiegelModularForms
 from degree2.scalar_valued_smfs import eisenstein_series_degree2
 from degree2.utils import pmap
 
-from degree2.elements import SymWtModFmElt
 
 import kim_shahidi_lift_cong.utils
 
@@ -74,19 +73,6 @@ class VectorValuedSMFsSym14Wt17NonHol(VectorValuedSiegelModularForms):
 
 sym14_wt17_non_hol = VectorValuedSMFsSym14Wt17NonHol(6)
 
-def lift_sym14_wt17_prec6():
-    res = sym14_wt17_non_hol.eigenform_with_eigenvalue_t2(QQ(-4078080))
-    res.save_as_binary(fname("lift_prec6.sobj"))
-    return res
-
-def non_lift_sym14_wt17_prec6():
-    pl = [a for a, _ in sym14_wt17_non_hol.hecke_charpoly(2).factor()
-          if a.degree() == 12][0]
-    K = NumberField(pl, names="a")
-    a = K.gen()
-    res = sym14_wt17_non_hol.eigenform_with_eigenvalue_t2(a)
-    res.save_as_binary(fname("non_lift_prec6.sobj"))
-    return res
 
 
 class VectorValuedSMFsSym14Wt17(VectorValuedSiegelModularForms):
@@ -112,12 +98,9 @@ def fname(f):
 
 def check_cong():
     p = 92467
-    lift = SymWtModFmElt.load_from(fname("lift_prec6.sobj"))
-    non_lift = SymWtModFmElt.load_from(fname("non_lift_prec6.sobj"))
     t2_eigenvalue = -4078080
     M = sym14_wt17_non_hol
-    kim_shahidi_lift_cong.utils.check_cong(p, t2_eigenvalue,
-                                           lift, non_lift, M)
+    kim_shahidi_lift_cong.utils.check_cong(p, t2_eigenvalue, M)
 
 
 

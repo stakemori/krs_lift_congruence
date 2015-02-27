@@ -1,12 +1,8 @@
 # -*- coding: utf-8; mode: sage -*-
-import os
-
 from degree2.const import ScalarModFormConst as SMFC
 from degree2.const import ConstVectValued
 from degree2.const import ConstVectValuedHeckeOp as CVH
 from degree2.const import CalculatorVectValued
-
-from degree2.elements import SymWtModFmElt
 
 from degree2.vector_valued_smfs import VectorValuedSiegelModularForms
 
@@ -67,19 +63,16 @@ class VectorValuedSMFsSym18Wt21(VectorValuedSiegelModularForms):
         d = calculator.forms_dict(self.prec)
         return [d[_c] for _c in sym18_consts1]
 
+def compute_lift_and_non_lift():
+    M = VectorValuedSMFsSym18Wt21(6)
+    kim_shahidi_lift_cong.utils.compute_lift_and_non_lift(M, 6)
 
 def check_cong():
-    def fname(f):
-        return os.path.join(kim_shahidi_lift_cong.utils.data_dir, f)
-
-    lift = SymWtModFmElt.load_from(fname("lift_prec6.sobj"))
-    non_lift = SymWtModFmElt.load_from(fname("non_lift_prec6.sobj"))
     t2_eigenvalue = -383331840
     M = VectorValuedSMFsSym18Wt21(6)
     for p in [103, 5518029068479]:
         print "checking when p = %s ... "%(p)
-        kim_shahidi_lift_cong.utils.check_cong(p, t2_eigenvalue,
-                                               lift, non_lift, M)
+        kim_shahidi_lift_cong.utils.check_cong(p, t2_eigenvalue, M)
 
 
 # check_cong()                    # noerror!!
