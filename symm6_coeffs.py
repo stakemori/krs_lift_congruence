@@ -21,7 +21,7 @@ def compute_coeffs(digits):
 
 
 def compute_l(digits):
-    for k in [18]:
+    for k in [16, 18, 20]:
         print k
         f = CuspForms(1, k).basis()[0]
         coeffs = load(os.path.join(dir_dict[k], "coeffs" + str(k) + ".sobj"))
