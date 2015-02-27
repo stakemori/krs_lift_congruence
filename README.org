@@ -31,18 +31,21 @@
   sage: krs_lift_congruence.utils.data_dir = os.path.expanduser("~/ksr_lift_data_dir")
 #+end_src
 
-   To compute basis of weights det^17 Sym(14), det^19 Sym(16) and
-   det^21 Sym(18), lifts and non-lifts with precision 6, evaluate the
-   following code.
+
+*** Computation of basis, lifts and non-lifts
+
+    To compute basis of weights det^17 Sym(14), det^19 Sym(16) and
+    det^21 Sym(18), lifts and non-lifts with precision 6, evaluate the
+    following code.
 
 #+begin_src python
   sage: from krs_lift_congruence.check_krs_cong import compute_lift_and_non_lift
   sage: compute_lift_and_non_lift()
 #+end_src
 
-   Then basis, lifts and non-lifts will be saved in the data directory.
-   For example to load the lift of weight det^17 Sym(14) and
-   non-lift of the same weight, try the following code.
+    Then basis, lifts and non-lifts will be saved in the data directory.
+    For example to load the lift of weight det^17 Sym(14) and
+    non-lift of the same weight, try the following code.
 
 #+begin_src python
   sage: from degree2.elements import SymWtModFmElt
@@ -50,16 +53,19 @@
   sage: nonlift = SymWtModFmElt.load_from("~/ksr_lift_data_dir/nonlift_17_14_prec6.sobj")
 #+end_src
 
-   To check congruences, evaluate the following code.
+*** Checking congruences
+    To check congruences, evaluate the following code.
 
 #+begin_src python
   sage: from krs_lift_congruence.check_krs_cong import check_congruence
   sage: check_congruence()
 #+end_src
 
-   To compute the critical value of symmetric 6th of elliptic modular form,
-   try the following code (here we compute =L(Sym^6, 46, f16)= where =f16= is
-   the primitive form of level 1 and weight 16).
+*** Computation of critical values
+
+    To compute the critical value of symmetric 6th of elliptic modular form,
+    try the following code (here we compute =L(Sym^6, 46, f16)= where =f16= is
+    the primitive form of level 1 and weight 16).
 
 #+begin_src python
   sage: from krs_lift_congruence.symmetric_l_calculator import Symm6Calculator
