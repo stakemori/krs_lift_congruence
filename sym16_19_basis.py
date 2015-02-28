@@ -59,6 +59,7 @@ class VectorValuedSMFsSym16Wt19(VectorValuedSiegelModularForms):
 
 def check_cong():
     p = 37903031
+    print "Checking when p = %s ..."%(p,)
     t2_eigenvalue = -8785920
     M = VectorValuedSMFsSym16Wt19(6)
     krs_lift_congruence.utils.check_cong(p, t2_eigenvalue, M)

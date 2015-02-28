@@ -103,6 +103,7 @@ def fname(f):
 
 def check_cong():
     p = 92467
+    print "Checking when p = %s ..."%(p,)
     t2_eigenvalue = -4078080
     M = sym14_wt17_non_hol
     krs_lift_congruence.utils.check_cong(p, t2_eigenvalue, M)
