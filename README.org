@@ -36,7 +36,8 @@
 
     To compute basis of weights det^17 Sym(14), det^19 Sym(16) and
     det^21 Sym(18), lifts and non-lifts with precision 6, evaluate the
-    following code.
+    following code. This takes about 15 hours (OS: Ubuntu 14.04 64 bit,
+    Memory: 20GB, CPU: core i7-3770).
 
 #+begin_src python
   sage: from krs_lift_congruence.check_krs_cong import compute_lift_and_non_lift
