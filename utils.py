@@ -66,7 +66,12 @@ def compute_lift_and_non_lift(space, prec):
     lift_chr_ply = _lift_chr_ply()[k]
     lift_ev = -lift_chr_ply.constant_coefficient()
     R = PolynomialRing(QQ, names="x")
-    K = NumberField(R((space.hecke_charpoly(2)/lift_chr_ply)), names="a")
+    if k == 16:
+        nonlift_chr_ply = [a for a, _ in space.hecke_charpoly(2).factor()
+                           if a.degree() == 12][0]
+        K = NumberField(nonlift_chr_ply, names="a")
+    else:
+        K = NumberField(R((space.hecke_charpoly(2)/lift_chr_ply)), names="a")
     nonlift_ev = K.gens()[0]
     lift = space.eigenform_with_eigenvalue_t2(lift_ev)
     lift.save_as_binary(lift_name)
