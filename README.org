@@ -1,4 +1,4 @@
-* krs_lift_congruence [[http://www.gnu.org/licenses/gpl.html][file:http://img.shields.io/:license-gpl-blue.svg]]
+* krs_lift_congruence
 
   This package checks congruence between Kim-Ramakrishnan-Shahidi lifts
   and non-lifts.
