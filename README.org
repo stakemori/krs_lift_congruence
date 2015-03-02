@@ -10,7 +10,7 @@
    - [[https://github.com/stakemori/degree2][degree2]]
 
 ** Installation
-   1. Install [[http://www.sagemath.org/][SageMath]]. We used SageMath 6.5.
+   1. Install [[http://www.sagemath.org/][SageMath]]. We use SageMath 6.5.
    2. [[https://github.com/stakemori/degree2][degree2]] and this package are packages written in pure Python.
       Place them to an appropriate directory so that SageMath can find
       these packages.
