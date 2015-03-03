@@ -98,5 +98,8 @@
 
    [[https://drive.google.com/uc?export=download&id=0B7X8tHAWVjfDUzUyUWFyWXN2MnM][krs_lift_data.zip]]
 
+   [[https://drive.google.com/file/d/0B7X8tHAWVjfDUzUyUWFyWXN2MnM/view?usp%3Dsharing][krs_lift_data.zip in Google Drive]]
+
+
 ** License
    Licensed under [[http://www.gnu.org/licenses/gpl.html][GPL]].
