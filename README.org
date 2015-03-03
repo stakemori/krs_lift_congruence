@@ -94,11 +94,9 @@
 #+end_src
 
 ** Data of Fourier coefficients
-   For the Fourier coefficients of lifts and non-lifts, download the file in the
-   following link.
+   Fourier coefficients of lifts and non-lifts are stored in CSV files.
 
-   https://drive.google.com/file/d/0B7X8tHAWVjfDUzUyUWFyWXN2MnM/view?usp=sharing
-
+   [[https://drive.google.com/uc?export%3Ddownload&id%3D0B7X8tHAWVjfDUzUyUWFyWXN2MnM][krs_data.zip]]
 
 ** License
    Licensed under [[http://www.gnu.org/licenses/gpl.html][GPL]].
