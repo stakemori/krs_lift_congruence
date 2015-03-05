@@ -17,10 +17,10 @@
 
 ** Usage
    First prepare a directory for saving data.
-   For example, we create "~/ksr_lift_data_dir" for the data directory.
+   For example, we create "~/krs_lift_data_dir" for the data directory.
 
 #+begin_src sh
-  $ mkdir ~/ksr_lift_data_dir
+  $ mkdir ~/krs_lift_data_dir
 #+end_src
 
    And in SageMath, evaluate the following code.
@@ -28,7 +28,7 @@
 #+begin_src python
   sage: import krs_lift_congruence.utils
   sage: import os
-  sage: krs_lift_congruence.utils.data_dir = os.path.expanduser("~/ksr_lift_data_dir")
+  sage: krs_lift_congruence.utils.data_dir = os.path.expanduser("~/krs_lift_data_dir")
 #+end_src
 
 
@@ -50,8 +50,8 @@
 
 #+begin_src python
   sage: from degree2.elements import SymWtModFmElt
-  sage: lift = SymWtModFmElt.load_from("~/ksr_lift_data_dir/lift_17_14_prec6.sobj")
-  sage: nonlift = SymWtModFmElt.load_from("~/ksr_lift_data_dir/nonlift_17_14_prec6.sobj")
+  sage: lift = SymWtModFmElt.load_from("~/krs_lift_data_dir/lift_17_14_prec6.sobj")
+  sage: nonlift = SymWtModFmElt.load_from("~/krs_lift_data_dir/nonlift_17_14_prec6.sobj")
 #+end_src
 
 *** Checking congruences
@@ -70,7 +70,6 @@
 
 #+begin_src python
   sage: from krs_lift_congruence.symmetric_l_calculator import Symm6Calculator
-  sage: from sage.all import CuspForms
   sage: f16 = CuspForms(1, 16).basis()[0] # The primitive form of weight 16.
   sage: lcalc = Symm6Calculator(f16, digits=150)
   sage: alg_part = lcalc.algebraic_part_numeric(46) # The conjectural algebraic part.
