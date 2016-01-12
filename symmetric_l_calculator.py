@@ -332,7 +332,7 @@ def coeff_of_f_in_es_prod(q, k):
 
 
 @cached_function
-def peterson_inner_prod(f, digits=100):
+def petersson_inner_prod(f, digits=100):
     '''
     Assumes that f is a normalized Hecke eigenform of level 1 and
     the Hecke field is eqaul to Q.
@@ -363,7 +363,7 @@ def trance_part(f, m, n=6, digits=100):
     '''
     if n % 2 == 1:
         raise NotImplementedError
-    pinprd = peterson_inner_prod(f, digits=digits)
+    pinprd = petersson_inner_prod(f, digits=digits)
     k = f.weight()
     r = n // 2
     a = pinprd ** (r * (r + 1) / 2)
