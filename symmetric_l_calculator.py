@@ -205,7 +205,7 @@ class SymmLCalculator(DokchitserLCalc):
     def algebraic_part_numeric(self, m):
         return self.l_value(m) / self.trancendential_part(m)
 
-    def critical_values(self):
+    def critical_points(self):
         if self.n % 2 == 1:
             raise NotImplementedError
         r = self.n // 2
