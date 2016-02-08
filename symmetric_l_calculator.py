@@ -3,7 +3,7 @@
 from sage.all import (eisenstein_series_qexp, bernoulli,
                       pi, gamma, prime_range, PowerSeriesRing,
                       QQ, mul, ceil, log, gp, cached_method, ComplexField,
-                      Integer, cached_function, fork, floor, ZZ)
+                      Integer, cached_function, fork, floor, ZZ, PolynomialRing)
 
 from sage.misc.all import verbose
 
@@ -207,7 +207,7 @@ class SymmLCalculator(DokchitserLCalc):
     def algebraic_part_numeric(self, m):
         return self.l_value(m) / self.trancendential_part(m)
 
-    def critical_values(self):
+    def critical_points(self):
         if self.n % 2 == 1:
             raise NotImplementedError
         r = self.n // 2
@@ -229,6 +229,55 @@ def gamma_inf_part(n, k, s):
         r += 1
         return ((2 * pi) ** (-ZZ(r * s)) *
                 mul([gamma(s - j * (k - 1)) for j in range(r)]))
+
+
+def symml_euler_s_t_pol(j):
+    R = PolynomialRing(QQ, names="a, b")
+    U = PolynomialRing(QQ, names="s, t, x")
+    T = PolynomialRing(R, names="x")
+    x = T.gens()[0]
+    a, b = R.gens()
+    f = mul((1 - a ** i * b ** (j - i) * x) for i in range(j + 1))
+    return sum(U(_to_s_t_pol(v)) * U("x") ** k for k, v in f.dict().items())
+
+
+def _to_s_t_pol(f):
+    '''f is a symmetric polynomial of a and b,
+    s = a + b, t = a * b, return a polynomial of s and t,
+    which is equal to f.
+    '''
+    R = PolynomialRing(QQ, names="a, b")
+    a, b = R.gens()
+    _s = a + b
+    _t = a * b
+    S = PolynomialRing(QQ, names="s, t")
+    s, t = S.gens()
+    res = 0
+    while f != 0:
+        i, j = list(sorted(f.dict().keys(), key=lambda x: x[0]))[0]
+        i0, j0 = j - i, i
+        v = f[(i, j)]
+        res += v * s ** i0 * t ** j0
+        f -= v * _s ** i0 * _t ** j0
+    return res
+
+
+class SymmNLCalculator(SymmLCalculator):
+
+    def __init__(self, f, n, digits=100, eigenvalue_dct=None, coeffs=None):
+        SymmLCalculator.__init__(
+            self, f, n, digits=digits, eigenvalue_dct=eigenvalue_dct, coeffs=coeffs)
+        self._s_t_pol = symml_euler_s_t_pol(self.n)
+
+    def coeffs_p(self, p, prec):
+        a_dct = self.eigenvalue_dct()
+        R = PowerSeriesRing(QQ, names="q", default_prec=prec + 1)
+        q = R.gens()[0]
+        s = a_dct[p]
+        t = p ** (self.k - 1)
+        _s, _t, _x = self._s_t_pol.parent().gens()
+        dnm = self._s_t_pol.subs({_s: s, _t: t, _x: q})
+        return (1 / dnm).dict()
 
 
 class Symm6Calculator(SymmLCalculator):
@@ -285,7 +334,7 @@ def coeff_of_f_in_es_prod(q, k):
 
 
 @cached_function
-def peterson_inner_prod(f, digits=100):
+def petersson_inner_prod(f, digits=100):
     '''
     Assumes that f is a normalized Hecke eigenform of level 1 and
     the Hecke field is eqaul to Q.
@@ -316,7 +365,7 @@ def trance_part(f, m, n=6, digits=100):
     '''
     if n % 2 == 1:
         raise NotImplementedError
-    pinprd = peterson_inner_prod(f, digits=digits)
+    pinprd = petersson_inner_prod(f, digits=digits)
     k = f.weight()
     r = n // 2
     a = pinprd ** (r * (r + 1) / 2)
