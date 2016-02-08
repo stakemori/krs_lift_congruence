@@ -13,14 +13,16 @@ import os
 def to_bit_prec(prec):
     # a small overestimate of log(10,2)
     LOG_TEN_TWO_PLUS_EPSILON = 3.321928094887363
-    return int((prec+1) * LOG_TEN_TWO_PLUS_EPSILON) + 1
+    return int((prec + 1) * LOG_TEN_TWO_PLUS_EPSILON) + 1
 
 
 class DokchitserLCalc(object):
+
     '''
     The original implementation of Dokchitser L calculator
     spawns zombie python processes.
     '''
+
     def __init__(self,
                  digits=None,
                  conductor=None,
@@ -58,13 +60,13 @@ class DokchitserLCalc(object):
                              "src/ext/pari/dokchitser/computel.gp")
         d = self.data_dct
         return "; ".join(['read("{fname}")'.format(fname=fname),
-                          "conductor=%s"%d["conductor"],
-                          "gammaV=%s"%d["gammaV"],
-                          "weight=%s"%d["weight"],
-                          "default(realprecision,%s)"%self.digits,
-                          "sgn=%s"%d["sgn"],
-                          "Lpoles=%s"%d["Lpoles"],
-                          "Lresidues=%s"%d["Lresidues"]])
+                          "conductor=%s" % d["conductor"],
+                          "gammaV=%s" % d["gammaV"],
+                          "weight=%s" % d["weight"],
+                          "default(realprecision,%s)" % self.digits,
+                          "sgn=%s" % d["sgn"],
+                          "Lpoles=%s" % d["Lpoles"],
+                          "Lresidues=%s" % d["Lresidues"]])
 
     def init_gp(self):
         gp.eval(self.init_gp_code())
@@ -89,22 +91,22 @@ class DokchitserLCalc(object):
         # Compute Dirichlet series from local Dirichlet sereis.
         res = [1] * m
         for p in primes:
-            p_prec = ceil(log(m.n())/log(p.n()))
+            p_prec = ceil(log(m.n()) / log(p.n()))
             d = self.coeffs_p(p, p_prec)
             ord_ls = [0] * m
             for i in range(1, p_prec + 1):
-                p_i = p**i
-                for a in range(1, m//p_i + 1):
+                p_i = p ** i
+                for a in range(1, m // p_i + 1):
                     ord_ls[a * p_i - 1] += 1
             for i, a in enumerate(ord_ls):
                 if a != 0:
-                    res[i] *= d[a]
+                    res[i] *= d.get(a, 0)
         self.set_coeffs(res)
         return res
 
     def init_l_data_gp_code(self):
         coeffs = self.coeffs()
-        return ";".join(['coeff = %s'%coeffs, 'initLdata("coeff[k]")'])
+        return ";".join(['coeff = %s' % coeffs, 'initLdata("coeff[k]")'])
 
     def init_l_data_gp(self):
         gp.eval(self.init_l_data_gp_code())
@@ -130,7 +132,7 @@ class DokchitserLCalc(object):
         def computel():
             self.init_gp()
             self.init_l_data_gp()
-            return gp.eval('L(%s)'%s)
+            return gp.eval('L(%s)' % s)
 
         z = computel()
         if 'pole' in z:
@@ -143,7 +145,7 @@ class DokchitserLCalc(object):
             i = z.rfind('\n')
             msg = z[:i].replace('digits', 'decimal digits')
             verbose(msg, level=-1)
-            ans = self.__to_CC(z[i+1:])
+            ans = self.__to_CC(z[i + 1:])
             self._values[s] = ans
             return ans
         ans = self.__to_CC(z)
@@ -152,29 +154,32 @@ class DokchitserLCalc(object):
 
 
 class SymmLCalculator(DokchitserLCalc):
+
     def __init__(self, f, n,
                  digits=100,
                  gammaV=None,
                  eigenvalue_dct=None,
-                 coeffs=None):
+                 coeffs=None,
+                 sgn=1,
+                 conductor=1):
         self.n = n
         self.f = f
         k = self.f.weight()
         self.k = k
         weight = n * (k - 1) + 1
-        if n%2 == 0:
-            r = n//2
-            gammaV = [- 2 * ((r*(k-1))//2)]
+        if n % 2 == 0:
+            r = n // 2
+            gammaV = [- 2 * ((r * (k - 1)) // 2)]
         else:
-            r = (n + 1)//2
+            r = (n + 1) // 2
             gammaV = []
 
         for j in range(r):
-            gammaV = [-j*(k - 1), -j*(k - 1) + 1] + gammaV
+            gammaV = [-j * (k - 1), -j * (k - 1) + 1] + gammaV
 
         DokchitserLCalc.__init__(self, digits=digits,
-                                 conductor=1,
-                                 gammaV=gammaV, weight=weight)
+                                 conductor=conductor,
+                                 gammaV=gammaV, weight=weight, sgn=sgn)
 
         self._eigenvalue_dct = eigenvalue_dct
         if coeffs is not None:
@@ -203,29 +208,31 @@ class SymmLCalculator(DokchitserLCalc):
         return self.l_value(m) / self.trancendential_part(m)
 
     def critical_values(self):
-        if self.n%2 == 1:
+        if self.n % 2 == 1:
             raise NotImplementedError
-        r = self.n//2
+        r = self.n // 2
         k = self.k
-        l1 = [s for s in range((k - 1)*(r - 1) + 1, (k - 1)*r + 1) if s%2 == 1]
-        l2 = [s for s in range((k - 1)*r + 1, (k - 1)*(r + 1) + 1) if s%2 == 0]
+        l1 = [
+            s for s in range((k - 1) * (r - 1) + 1, (k - 1) * r + 1) if s % 2 == 1]
+        l2 = [
+            s for s in range((k - 1) * r + 1, (k - 1) * (r + 1) + 1) if s % 2 == 0]
         return l1 + l2
 
 
 def gamma_inf_part(n, k, s):
     r, rsd = divmod(n, 2)
     if rsd == 0:
-        return (pi**(-ZZ(s)/ZZ(2)) *
-                gamma(QQ(s)/QQ(2) - floor(QQ(r*(k-1))/QQ(2)))
+        return (pi ** (-ZZ(s) / ZZ(2)) *
+                gamma(QQ(s) / QQ(2) - floor(QQ(r * (k - 1)) / QQ(2)))
                 * gamma_inf_part(n - 1, k, s))
     else:
         r += 1
-        return ((2 * pi)**(-ZZ(r*s)) *
-                mul([gamma(s - j*(k - 1)) for j in range(r)]))
-
+        return ((2 * pi) ** (-ZZ(r * s)) *
+                mul([gamma(s - j * (k - 1)) for j in range(r)]))
 
 
 class Symm6Calculator(SymmLCalculator):
+
     def __init__(self, f, digits=100,
                  eigenvalue_dct=None, coeffs=None):
         SymmLCalculator.__init__(self, f, 6,
@@ -238,16 +245,17 @@ class Symm6Calculator(SymmLCalculator):
         R = PowerSeriesRing(QQ, names="q", default_prec=prec + 1)
         q = R.gens()[0]
         s = a_dct[p]
-        t = p**(self.k-1)
-        f1 = s**6 - 6*t*s**4 + 9*t**2*s**2 - 2*t**3
-        f2 = t*(s**4 - 4*t*s**2 + 2*t**2)
-        f3 = t**2 * (s**2 - 2*t)
-        dnm = (mul([1 - f * q + t**6 * q**2 for f in [f1, f2, f3]]) *
-               (1 - t**3 * q))
-        return (1/dnm).dict()
+        t = p ** (self.k - 1)
+        f1 = s ** 6 - 6 * t * s ** 4 + 9 * t ** 2 * s ** 2 - 2 * t ** 3
+        f2 = t * (s ** 4 - 4 * t * s ** 2 + 2 * t ** 2)
+        f3 = t ** 2 * (s ** 2 - 2 * t)
+        dnm = (mul([1 - f * q + t ** 6 * q ** 2 for f in [f1, f2, f3]]) *
+               (1 - t ** 3 * q))
+        return (1 / dnm).dict()
 
 
 class Symm2LCalculator(SymmLCalculator):
+
     def __init__(self, f, digits=100,
                  eigenvalue_dct=None, coeffs=None):
         SymmLCalculator.__init__(self, f, 2,
@@ -261,17 +269,18 @@ class Symm2LCalculator(SymmLCalculator):
         R = PowerSeriesRing(QQ, names="q", default_prec=prec + 1)
         q = R.gens()[0]
         s = a_dct[p]
-        t = p**(k-1)
-        f1 = s**2 - 2*t
-        dnm = (1 - f1 * q + t**2 * q**2) * (1 - t * q)
-        return (1/dnm).dict()
+        t = p ** (k - 1)
+        f1 = s ** 2 - 2 * t
+        dnm = (1 - f1 * q + t ** 2 * q ** 2) * (1 - t * q)
+        return (1 / dnm).dict()
 
 
 def coeff_of_f_in_es_prod(q, k):
     esq = eisenstein_series_qexp(q, normalization="constant")
-    eskq = eisenstein_series_qexp(k-q, normalization="constant")
+    eskq = eisenstein_series_qexp(k - q, normalization="constant")
     g = esq * eskq - eisenstein_series_qexp(k, normalization="constant")
-    a = (-1)**(q//2) * 2**(k-3) * bernoulli(q) * bernoulli(k-q)/(q * (k-q))
+    a = (-1) ** (q // 2) * 2 ** (k - 3) * \
+        bernoulli(q) * bernoulli(k - q) / (q * (k - q))
     return g[1] * a
 
 
@@ -293,30 +302,30 @@ def peterson_inner_prod(f, digits=100):
     f_qexp = f.qexp(prec=num + 2)
     l_calc.set_coeffs([f_qexp[a + 1] for a in range(num + 1)])
 
-    q = [a for a in range(k//2 + 2, k - 3) if a%2 == 0][0]
+    q = [a for a in range(k // 2 + 2, k - 3) if a % 2 == 0][0]
 
     def l_func(s):
-        return (2*pi.n(digits=digits))**(-s) * gamma(s) * l_calc.l_value(s)
+        return (2 * pi.n(digits=digits)) ** (-s) * gamma(s) * l_calc.l_value(s)
 
-    return l_func(q) * l_func(k-1) / coeff_of_f_in_es_prod(q, k)
+    return l_func(q) * l_func(k - 1) / coeff_of_f_in_es_prod(q, k)
 
 
 def trance_part(f, m, n=6, digits=100):
     '''
     Assumes n is even.
     '''
-    if n%2 == 1:
+    if n % 2 == 1:
         raise NotImplementedError
     pinprd = peterson_inner_prod(f, digits=digits)
     k = f.weight()
-    r = n//2
-    a = pinprd ** (r*(r+1)/2)
-    if m%2 == 1:
-        e = r * m - (r*(r-1)/2) * (k - 1)
+    r = n // 2
+    a = pinprd ** (r * (r + 1) / 2)
+    if m % 2 == 1:
+        e = r * m - (r * (r - 1) / 2) * (k - 1)
     else:
-        e = (r + 1) * m - r*(r+1)/2 * (k - 1)
-    b = ((2*pi)**e).n(digits=digits)
-    return a*b
+        e = (r + 1) * m - r * (r + 1) / 2 * (k - 1)
+    b = ((2 * pi) ** e).n(digits=digits)
+    return a * b
 
 # def f(x, k):
 #     return gamma(x) * gamma(x - k + 1) * gamma(x - 2*k + 2)
@@ -324,22 +333,23 @@ def trance_part(f, m, n=6, digits=100):
 # def g(x, k):
 #     return f(x, k)/f((k - 1)*6 + 1 - x, k)
 
+
 def complete_l_value(l_alg, f):
     k = f.weight()
-    m = 3*k - 2
+    m = 3 * k - 2
     digits = 300
     trns = trance_part(f, m, digits=digits)
     cl_val = l_alg * trns * (gamma_inf_part(6, k, m)).n(digits=digits)
     return cl_val
 
+
 def oposite_value_alg_part_using_feq(l_alg, f):
     k = f.weight()
-    m = 3*k - 2
-    mop = 3*k - 3
+    m = 3 * k - 2
+    mop = 3 * k - 3
     digits = 300
     trns = trance_part(f, m, digits=digits)
     trns_op = trance_part(f, mop, digits=digits)
     cl_val = l_alg * trns * (gamma_inf_part(6, k, m)).n(digits=digits)
-    l_val_op = cl_val /(gamma_inf_part(6, k, mop)).n(digits=digits)
+    l_val_op = cl_val / (gamma_inf_part(6, k, mop)).n(digits=digits)
     return l_val_op / trns_op
-
