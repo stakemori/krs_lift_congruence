@@ -121,10 +121,10 @@ class DokchitserLCalc(object):
     def set_values(self, s, v):
         self._values[s] = v
 
-    def l_value(self, s):
+    def l_value(self, s, deriv=None):
         s = self._CC(s)
         try:
-            return self._values[s]
+            return self._values[(s, deriv)]
         except KeyError:
             pass
 
@@ -132,7 +132,12 @@ class DokchitserLCalc(object):
         def computel():
             self.init_gp()
             self.init_l_data_gp()
-            return gp.eval('L(%s)' % s)
+            if deriv is None:
+                return gp.eval('L(%s)' % s)
+            elif deriv in ZZ and deriv > 0:
+                return gp.eval('L(%s,,%s)' % (s, deriv))
+            else:
+                raise ValueError
 
         z = computel()
         if 'pole' in z:
@@ -146,10 +151,10 @@ class DokchitserLCalc(object):
             msg = z[:i].replace('digits', 'decimal digits')
             verbose(msg, level=-1)
             ans = self.__to_CC(z[i + 1:])
-            self._values[s] = ans
+            self.set_values((s, deriv), ans)
             return ans
         ans = self.__to_CC(z)
-        self.set_values(s, ans)
+        self.set_values((s, deriv), ans)
         return ans
 
 
