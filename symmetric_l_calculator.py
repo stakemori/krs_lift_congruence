@@ -1,13 +1,12 @@
 # -*- coding: utf-8; mode: sage -*-
 
-from sage.all import (eisenstein_series_qexp, bernoulli,
-                      pi, gamma, prime_range, PowerSeriesRing,
-                      QQ, mul, ceil, log, gp, cached_method, ComplexField,
-                      Integer, cached_function, fork, floor, ZZ, PolynomialRing)
-
-from sage.misc.all import verbose
-
 import os
+
+from sage.all import (QQ, ZZ, ComplexField, Integer, PolynomialRing,
+                      PowerSeriesRing, bernoulli, cached_function,
+                      cached_method, ceil, eisenstein_series_qexp, floor, fork,
+                      gamma, gp, log, mul, pi, prime_range)
+from sage.misc.all import verbose
 
 
 def to_bit_prec(prec):
