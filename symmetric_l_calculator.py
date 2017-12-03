@@ -105,7 +105,12 @@ class DokchitserLCalc(object):
 
     def init_l_data_gp_code(self):
         coeffs = self.coeffs()
-        return ";".join(['coeff = %s' % coeffs, 'initLdata("coeff[k]")'])
+        if coeffs[0] in ZZ:
+            l = [ZZ(c).n(digits=self.digits)._pari_init_() for c in coeffs]
+        else:
+            l = coeffs
+        v = ", ".join(l)
+        return ";\n".join(['coeff = [%s]' % v, 'initLdata("coeff[k]")'])
 
     def init_l_data_gp(self):
         gp.eval(self.init_l_data_gp_code())
@@ -128,7 +133,8 @@ class DokchitserLCalc(object):
             pass
 
         @fork
-        def computel():
+        def computel(coeffs):
+            self.set_coeffs(coeffs)
             self.init_gp()
             self.init_l_data_gp()
             if deriv is None:
@@ -138,7 +144,7 @@ class DokchitserLCalc(object):
             else:
                 raise ValueError
 
-        z = computel()
+        z = computel(self.coeffs())
         if 'pole' in z:
             print z
             raise ArithmeticError
